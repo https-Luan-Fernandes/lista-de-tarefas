@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="assets/css/style.css">
+      <title>Lista de Tarefas</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+      <script src="assets/js/script.js" defer></script>
+      <script src="assets/js/jsonPlaceHolder.js" defer></script>
+
+</head>
+
+<body>
+      <main>
+            <div id="list-container" class="roboto-list-container">
+                  <div id="heading-form-container">
+                        <h1>Lista de Tarefas</h1>
+                        <form>
+                              <input id="task" type="text" placeholder="Digitar tarefa...">
+                              <button type="button" id="add-task-btn">Adicionar</button>
+                        </form>
+                        <p style="display:none" id="input-error"></p>
+                  </div>
+                  <div id="unordered-list-container">
+                        <ul id="tasks-container">
+                              <!-- As tarefas serão adicionadas de forma dinâmica -->
+                        </ul>
+                  </div>
+            </div>
+      </main>
+</body>
+
+</html>
