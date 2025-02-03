@@ -28,12 +28,8 @@ fetch("https://jsonplaceholder.typicode.com/todos")
 
       
 
-      let uniqueId = "checkbox-id-" + Date.now();
+      let uniqueId = "checkbox-id-" + item.id;
       checkbox.id = uniqueId;
-
-      checkbox.addEventListener("change", () => {
-        label.style.textDecoration = checkbox.checked ? "line-through" : "none";
-      });
 
       // Cria o label
       let label = document.createElement("label");
@@ -41,6 +37,10 @@ fetch("https://jsonplaceholder.typicode.com/todos")
       label.textContent = item.title;
 
       label.style.textDecoration = checkbox.checked ? "line-through" : "none";
+
+      checkbox.addEventListener("change", () => {
+        label.style.textDecoration = checkbox.checked ? "line-through" : "none";
+      });
 
       // Cria o botão de remover
       let button = document.createElement("button");
