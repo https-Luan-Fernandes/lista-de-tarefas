@@ -1,77 +1,127 @@
-document
-  .getElementById("heading-form-container")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); // Impede o comportamento padrão de submissão do formulário
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  for (let i = 0; i < localStorage.length; i++) {
+    let taskId = localStorage.key(i);
+    let taskData = localStorage.getItem(taskId);
 
-// Escuta evento de click no botão "Adicionar"
+    if (taskData) {
+      let task = JSON.parse(taskData);
+
+      // Verifica se a tarefa tem texto antes de criar o item
+      if (task.text && task.text.trim() !== "") {
+        // Verificação para evitar tarefas vazias
+        let li = document.createElement("li");
+        li.style.listStyleType = "none";
+        li.style.display = "grid";
+        li.style.placeItems = "center";
+        li.style.minHeight = "3em";
+        li.style.borderRadius = "0.5em";
+        li.style.backgroundColor = "#D8CBC6";
+        li.style.gridTemplateColumns = "0.1fr 1fr 0.2fr";
+
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.style.width = "2em";
+        checkbox.style.height = "2em";
+        checkbox.checked = task.checked;
+        checkbox.id = task.id;
+
+        let label = document.createElement("label");
+        label.htmlFor = task.id;
+        label.textContent = task.text;
+
+        if (task.checked) {
+          label.style.textDecoration = "line-through";
+        }
+
+        checkbox.addEventListener("change", () => {
+          label.style.textDecoration = checkbox.checked
+            ? "line-through"
+            : "none";
+          task.checked = checkbox.checked;
+          localStorage.setItem(task.id, JSON.stringify(task));
+        });
+
+        let button = document.createElement("button");
+        button.style.width = "5em";
+        button.style.height = "2.5em";
+        button.style.color = "white";
+        button.style.border = "none";
+        button.style.backgroundColor = "#C82333";
+        button.style.borderRadius = "0.5em";
+        button.textContent = "remover";
+
+        button.addEventListener("click", () => {
+          li.remove();
+          localStorage.removeItem(task.id);
+        });
+
+        li.append(checkbox, label, button);
+        document.getElementById("tasks-container").appendChild(li);
+      }
+    }
+  }
+});
+
 document.getElementById("add-task-btn").addEventListener("click", () => {
-
   let p = document.getElementById("input-error");
-  // Coleta texto digitado na tag de input de tarefa
-  // Retira espaços em branco do início e fim da string
-  let typedText = document.getElementById("task").value.trim();
+  let typedText = document.getElementById("task").value.trim(); // Remove espaços em branco
+
+  // Verificação para não permitir tarefa vazia
   if (typedText === "") {
     p.textContent = "O campo não pode estar vazio!";
     p.style.color = "red";
     p.style.display = "block";
+    return; // Não adiciona a tarefa vazia
   } else {
-    p.style.display = "none";
+    p.style.display = "none"; // Esconde o erro
   }
 
-  if (typedText !== "") {
-    // Cria uma div para armazenar os elementos da tarefa
-    let li = document.createElement("li");
-    // Remove bullets dos items
-    li.style.listStyleType = "none";
-    li.style.display = "grid";
-    li.style.placeItems = "center";
-    li.style.minHeight = "3em";
-    li.style.borderRadius = "0.5em";
-    li.style.backgroundColor = "#D8CBC6";
-    li.style.gridTemplateColumns = "0.1fr 1fr 0.2fr";
-    // Cria um elemento de input
-    let checkbox = document.createElement("input");
-    // Adiciona o tipo "checkbox" para o elemento "input"
-    checkbox.type = "checkbox";
-    checkbox.style.width = "2em";
-    checkbox.style.height = "2em";
+  let li = document.createElement("li");
+  li.style.listStyleType = "none";
+  li.style.display = "grid";
+  li.style.placeItems = "center";
+  li.style.minHeight = "3em";
+  li.style.borderRadius = "0.5em";
+  li.style.backgroundColor = "#D8CBC6";
+  li.style.gridTemplateColumns = "0.1fr 1fr 0.2fr";
 
-    let uniqueId = "checkbox-id-" + Date.now();
-    // Adiciona um ID dinâmico para o elemento "input"
-    checkbox.id = uniqueId;
-    // Escuta mudança no checkbox
-    // Altera o estilo se for marcado ou desmarcado
-    // Se marcado: Adiciona uma linha cortando o texto
-    // Se não marcado: Retira a linha contando o texto
-    checkbox.addEventListener("change", () => {
-      label.style.textDecoration = checkbox.checked ? "line-through" : "none";
-    });
-    // Cria um label para armazenar o texto da task
-    let label = document.createElement("label");
-    // Adiciona o ID referente ao checkbox no rótulo
-    label.htmlFor = uniqueId;
-    // Preenche o label com o texto digitado na tag de input de tarefa
-    label.textContent = typedText;
-    // Cria um elemento "button"
-    let button = document.createElement("button");
-    button.style.width = "5em";
-    button.style.height = "2.5em";
-    button.style.color = "white";
-    button.style.border = "none";
-    button.style.backgroundColor = "#C82333";
-    button.style.borderRadius = "0.5em";
+  let checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.style.width = "2em";
+  checkbox.style.height = "2em";
 
-    // Adiciona o texto "remover" ao botão
-    button.textContent = "remover";
-    // Escuta evento de click no botão remover
-    // Se clicado: remove o elemento pai dos elementos da task -> div
-    button.addEventListener("click", () => {
-      li.remove();
-    });
-    // Adiciona os elementos criados ao container da tarefa
-    li.append(checkbox, label, button);
-    // Adiciona o container com os elementos das tarefa ao container de tarefas
-    document.getElementById("tasks-container").appendChild(li);
-  }
+  let uniqueId = "checkbox-id-" + Date.now(); // Cria um ID único baseado no timestamp
+  checkbox.id = uniqueId;
+
+  let label = document.createElement("label");
+  label.htmlFor = uniqueId;
+  label.textContent = typedText; // Adiciona o texto da tarefa
+
+  let button = document.createElement("button");
+  button.style.width = "5em";
+  button.style.height = "2.5em";
+  button.style.color = "white";
+  button.style.border = "none";
+  button.style.backgroundColor = "#C82333";
+  button.style.borderRadius = "0.5em";
+  button.textContent = "remover";
+
+  button.addEventListener("click", () => {
+    li.remove(); // Remove o item da lista
+    localStorage.removeItem(uniqueId); // Remove do localStorage
+  });
+
+  li.append(checkbox, label, button);
+
+  let task = {
+    id: uniqueId,
+    text: typedText,
+    checked: checkbox.checked,
+  };
+
+  document.getElementById("tasks-container").appendChild(li); // Adiciona ao container
+  document.getElementById("task").value = ""; // Limpa o campo de entrada
+
+  // Salva no localStorage
+  localStorage.setItem(task.id, JSON.stringify(task));
 });
