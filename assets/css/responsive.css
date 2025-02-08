@@ -1,0 +1,27 @@
+@media (max-width: 768px) {
+  .roboto-list-container {
+    padding: 15px;
+    margin: 10px;
+    width: 90%;
+  }
+
+  #list-container {
+    padding: 15px;
+    margin: 10px;
+    width: 90%;
+  }
+
+  form {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+  }
+
+  #heading-form-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 2em;
+    min-width: 100%;
+  }
+  
+}
